@@ -67,10 +67,11 @@ request on an individual entry](#get-photos-id).
   photos: [
     {
       id: String,
-      created: String,     // Timestamp for when entry was created
-      modified: String,    // Timestamp for when entry was last modified
-      title: String,       // User-provided title
-      thumbnail: String    // Base64 encoded JPEG thumbnail (200x200)
+      title: String,          // User-provided title
+      description: String,    // User-provided description
+      thumbnail: String,      // Base64 encoded JPEG thumbnail (200x200)
+      created: String,        // Timestamp for when entry was created
+      updated: String         // Timestamp for when entry was last updated
     },
     ...
   ]
@@ -84,6 +85,7 @@ presented once, which can be used to delete the photo.
 
 #### Parameters
 - `title` - Title for photo
+- `description` - Description for photo (optional)
 - `image` - Base64 encoded image
 
 #### Response
@@ -91,12 +93,13 @@ presented once, which can be used to delete the photo.
 {
   photo: {
     id: String,
-    key: String,         // Unique key required for deleting a picture
-    created: String,     // Timestamp for when entry was created
-    modified: String,    // Timestamp for when entry was last modified
-    title: String,       // User-provided title
-    image: String,       // Base64 encoded JPEG image
-    thumbnail: String    // Base64 encoded JPEG thumbnail (200x200)
+    key: String,            // Unique key required for deleting a picture
+    title: String,          // User-provided title
+    description: String,    // User-provided description
+    image: String,          // Base64 encoded JPEG image
+    thumbnail: String,      // Base64 encoded JPEG thumbnail (200x200)
+    created: String,        // Timestamp for when entry was created
+    updated: String         // Timestamp for when entry was last updated
   }
 }
 ```
@@ -112,11 +115,12 @@ in the response.
 {
   photo: {
     id: String,
-    created: String,     // Timestamp for when entry was created
-    modified: String,    // Timestamp for when entry was last modified
-    title: String,       // User-provided title
-    image: String,       // Base64 encoded JPEG image
-    thumbnail: String    // Base64 encoded JPEG thumbnail (200x200)
+    title: String,          // User-provided title
+    description: String,    // User-provided description
+    image: String,          // Base64 encoded JPEG image
+    thumbnail: String,      // Base64 encoded JPEG thumbnail (200x200)
+    created: String,        // Timestamp for when entry was created
+    updated: String         // Timestamp for when entry was last updated
   }
 }
 ```
@@ -131,6 +135,7 @@ cleared server side. (`thumbnail` is an exception as it is dependent on
 #### Parameters
 - `key` - Key issued from when the entry was created
 - `title` - Title for photo
+- `description` - Description for photo
 - `image` - Base64 encoded image
 
 #### Response
@@ -138,11 +143,12 @@ cleared server side. (`thumbnail` is an exception as it is dependent on
 {
   photo: {
     id: String,
-    created: String,     // Timestamp for when entry was created
-    modified: String,    // Timestamp for when entry was last modified
-    title: String,       // User-provided title
-    image: String,       // Base64 encoded JPEG image
-    thumbnail: String    // Base64 encoded JPEG thumbnail (200x200)
+    title: String,          // User-provided title
+    description: String,    // User-provided description
+    image: String,          // Base64 encoded JPEG image
+    thumbnail: String,      // Base64 encoded JPEG thumbnail (200x200)
+    created: String,        // Timestamp for when entry was created
+    updated: String         // Timestamp for when entry was last updated
   }
 }
 ```
@@ -151,12 +157,13 @@ cleared server side. (`thumbnail` is an exception as it is dependent on
 <a id="patch-photos-id">&nbsp;</a>
 ### PATCH `/photos/[id]`
 Like [PUT](#put-photos-id), update an existing entry given an `id`. However,
-parameters not provided will not be modified. (`thumbnail` is an exception as
-it is dependent on `image`. In addition, `key` is required to modify.)
+parameters not provided will not be updated. (`thumbnail` is an exception as it
+is dependent on `image`. In addition, `key` is required to modify.)
 
 #### Parameters
 - `key` - Key issued from when the entry was created
 - `title` - Title for photo
+- `description` - Description for photo
 - `image` - Base64 encoded image
 
 #### Response
@@ -164,11 +171,12 @@ it is dependent on `image`. In addition, `key` is required to modify.)
 {
   photo: {
     id: String,
-    created: String,     // Timestamp for when entry was created
-    modified: String,    // Timestamp for when entry was last modified
-    title: String,       // User-provided title
-    image: String,       // Base64 encoded JPEG image
-    thumbnail: String    // Base64 encoded JPEG thumbnail (200x200)
+    title: String,          // User-provided title
+    description: String,    // User-provided description
+    image: String,          // Base64 encoded JPEG image
+    thumbnail: String,      // Base64 encoded JPEG thumbnail (200x200)
+    created: String,        // Timestamp for when entry was created
+    updated: String         // Timestamp for when entry was last updated
   }
 }
 ```

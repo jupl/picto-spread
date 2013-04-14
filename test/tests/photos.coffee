@@ -39,10 +39,11 @@ describe 'Photos', ->
         photo.should.include.keys [
           'id'
           'key'
+          'title'
           'image'
           'thumbnail'
           'created'
-          'modified'
+          'updated'
         ]
         @params.title.should.equal photo.title
         done()
@@ -66,6 +67,9 @@ describe 'Photos', ->
         photo.key = @key
         @client.put "#{root}/#{@id}", photo, (error, req, res, {photo}) ->
           should.not.exist error
+          data.photo.updated.should.not.equal photo.updated
+          delete data.photo.updated
+          delete photo.updated
           data.photo.should.deep.equal photo
           done()
 
@@ -77,6 +81,9 @@ describe 'Photos', ->
         data.photo.title = title = uuid.v4()
         @client.patch "#{root}/#{@id}", {title, @key}, (error, req, res, {photo}) ->
           should.not.exist error
+          data.photo.updated.should.not.equal photo.updated
+          delete data.photo.updated
+          delete photo.updated
           data.photo.should.deep.equal photo
           done()
 

@@ -1,16 +1,17 @@
 {Schema} = mongoose = require 'mongoose'
-{timestamp} = require 'mongoose-troop'
+timestamps = require 'mongoose-times'
 {notBlank} = require '../lib/validators'
 
 schema = new Schema
-  title:
-    type: String
-    required: yes
-    unique: yes
   key:
     type: String
     required: yes
-    unique: yes
+  title:
+    type: String
+    required: yes
+  description:
+    type: String
+    default: ''
   image:
     type: Buffer
     required: yes
@@ -18,7 +19,7 @@ schema = new Schema
     type: Buffer
     required: yes
 
-schema.plugin(timestamp)
+schema.plugin(timestamps, lastUpdated: 'updated')
 schema.path('title').validate(notBlank, 'Invalid title')
 schema.method 'toClient', ({includeKey} = {}) ->
   json = @toObject(virtuals: yes)

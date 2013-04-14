@@ -27,7 +27,7 @@ module.exports = (server) ->
     photo = null
     image = new Buffer(params.image, 'base64')
     delete params.created
-    delete params.modified
+    delete params.updated
 
     # Make sure image is a valid format
     createImage(image)
@@ -67,7 +67,6 @@ module.exports = (server) ->
   # patch
   server.patch "#{root}/:_id", update(patch: yes)
 
-  delete
   server.del "#{root}/:_id", (req, res, next) ->
     {_id, key} = req.params
     if key
@@ -110,6 +109,7 @@ createImage = (image, {thumbnail} = {}) ->
 update = ({patch} = {}) -> (req, res, next) ->
   {params} = req
   {_id, key} = params
+  photo = null
 
   # Make sure a key is provided
   return next(new NotAuthorizedError('Key is required to modify')) unless key
@@ -120,7 +120,7 @@ update = ({patch} = {}) -> (req, res, next) ->
   delete params.key
   delete params.thumbnail
   delete params.created
-  delete params.modified
+  delete params.updated
   image = new Buffer(params.image, 'base64') if params.image
 
   # If we are updating an image, then redo the image and thumbnail
@@ -135,10 +135,15 @@ update = ({patch} = {}) -> (req, res, next) ->
 
   # After any image work needed update model
   .then ->
-    Q.ninvoke Photo, 'findOneAndUpdate', {_id, key}, params
+    Q.ninvoke Photo, 'findOne', {_id, key}
+
+  .then (model) ->
+    photo = model
+    model[key] = value for key, value of params
+    Q.ninvoke model, 'save'
 
   # Once photo is updated, let user know
-  .then (photo) ->
+  .then ->
     photo = photo.toClient()
     res.send 200, {photo}
     next()
