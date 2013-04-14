@@ -26,6 +26,8 @@ module.exports = (server) ->
     {params} = req
     photo = null
     image = new Buffer(params.image, 'base64')
+    delete params.created
+    delete params.modified
 
     # Make sure image is a valid format
     createImage(image)
