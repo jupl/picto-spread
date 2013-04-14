@@ -2,8 +2,8 @@
   "name": "picto-spread",
   "version": "0.1.0",
   "engines": {
-    "node": "0.10.4",
-    "npm": "1.2.18"
+    "node": "0.10",
+    "npm": "1.2"
   },
   "scripts": {
     "start": "foreman start",
