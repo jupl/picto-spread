@@ -82,9 +82,12 @@ createImage = (image, {thumbnail} = {}) ->
   buffers = []
   gmImage = gm image
 
-  # Make sure to not reencode if a JPEG
-  Q.ninvoke(gmImage, 'format').then (format) ->
-    return image if format.any(config.image.format) and not thumbnail
+  # Make sure to not reencode if a JPEG and not a thumbnail
+  Q.ninvoke(gmImage, 'format').then (formats) ->
+    return image unless thumbnail
+    return image if formats
+    .map((format) -> format.toLowerCase())
+    .any(config.image.format.toLowerCase())
 
     # Use GraphicsMagick to create thumbnail
     Q.fcall ->
