@@ -1,7 +1,7 @@
 require 'sugar'
 {NotAuthorizedError} = require 'restify'
 uuid = require 'node-uuid'
-gm = require 'gm'
+gm = require('gm').subClass(imageMagick: yes)
 Q = require 'q'
 
 Photo = require '../models/photo'
