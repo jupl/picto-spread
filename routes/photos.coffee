@@ -86,7 +86,7 @@ createImage = (image, {thumbnail} = {}) ->
   Q.ninvoke(gmImage, 'format').then (formats) ->
     return image unless thumbnail
     return image if formats
-    .map((format) -> format.toLowerCase())
+    .map((format) -> format?.toLowerCase())
     .any(config.image.format.toLowerCase())
 
     # Use GraphicsMagick to create thumbnail
