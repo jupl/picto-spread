@@ -1,6 +1,6 @@
-$(function() {
-  $('script[type="text/markdown"]').each(function() {
-    $(this).replaceWith(marked(this.textContent));
-  });
-  hljs.initHighlightingOnLoad();
+[].slice.call(document.querySelectorAll('script[type="text/markdown"]'), 0).forEach(function(el) {
+  var newEl = document.createElement('div');
+  newEl.innerHTML = marked(el.innerHTML);
+  el.parentNode.replaceChild(newEl, el);
 });
+hljs.initHighlightingOnLoad();
