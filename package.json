@@ -6,7 +6,7 @@
     "npm": "1.2"
   },
   "scripts": {
-    "start": "foreman start",
+    "start": "./node_modules/.bin/coffee server.coffee",
     "test": "./node_modules/.bin/mocha"
   },
   "repository": "https://github.com/jupl/picto-spread.git",
