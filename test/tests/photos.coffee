@@ -25,7 +25,7 @@ describe 'Photos', ->
 
     it 'GET', (done) ->
       @client.get root, (error, req, res, {photos}) ->
-        should.not.exist error
+        should.not.exist (error ? {}).message
         Photo.count (error, count) ->
           should.not.exist error
           photos.length.should.equal count
@@ -33,7 +33,7 @@ describe 'Photos', ->
 
     it 'POST', (done) ->
       @client.post root, @params, (error, req, res, {photo}) =>
-        should.not.exist error
+        should.not.exist (error ? {}).message
         @id = photo.id
         @key = photo.key
         photo.should.include.keys [
@@ -53,7 +53,7 @@ describe 'Photos', ->
     it 'GET', (done) ->
       should.exist @id
       @client.get "#{root}/#{@id}", (error, req, res, {photo}) ->
-        should.not.exist error
+        should.not.exist (error ? {}).message
         should.not.exist photo.key
         done()
 
@@ -61,12 +61,12 @@ describe 'Photos', ->
       should.exist @id
       should.exist @key
       @client.get "#{root}/#{@id}", (error, req, res, data) =>
-        should.not.exist error
+        should.not.exist (error ? {}).message
         data.photo.title = uuid.v4()
         photo = Object.clone(data.photo)
         photo.key = @key
         @client.put "#{root}/#{@id}", photo, (error, req, res, {photo}) ->
-          should.not.exist error
+          should.not.exist (error ? {}).message
           data.photo.updated.should.not.equal photo.updated
           delete data.photo.updated
           delete photo.updated
@@ -77,7 +77,7 @@ describe 'Photos', ->
       should.exist @id
       should.exist @key
       @client.get "#{root}/#{@id}", (error, req, res, data) =>
-        should.not.exist error
+        should.not.exist (error ? {}).message
         data.photo.title = title = uuid.v4()
         @client.patch "#{root}/#{@id}", {title, @key}, (error, req, res, {photo}) ->
           should.not.exist error
@@ -91,7 +91,7 @@ describe 'Photos', ->
       should.exist @id
       should.exist @key
       @client.del "#{root}/#{@id}?key=#{@key}", (error, req, res) ->
-        should.not.exist error
+        should.not.exist (error ? {}).message
         delete @id
         delete @key
         done()
