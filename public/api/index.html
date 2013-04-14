@@ -1,0 +1,200 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>PictoSpread</title>
+    
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <link rel="stylesheet" href="/stylesheets/highlight.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>PictoSpread</h1>
+        <p>Little RESTy web service for a class.</p>
+        <p class="view">
+          <a href="http://github.com/jupl/picto-spread">
+            View the Project on GitHub
+            <small>jupl/picto-spread</small>
+          </a>
+        </p>
+        <ul>
+          <li>
+            <a href="https://github.com/jupl/picto-spread/zipball/master">
+              Download <strong>ZIP File</strong>
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/jupl/picto-spread/tarball/master">
+              Download <strong>TAR Ball</strong>
+            </a>
+          </li>
+          <li>
+            <a href="http://github.com/jupl/picto-spread">
+              View On <strong>GitHub</strong>
+            </a>
+          </li>
+        </ul>
+      </header>
+
+      <section>
+        <script type="text/markdown">
+# API
+
+## Photos
+- [GET `/photos`](#get-photos)
+- [POST `/photos`](#post-photos)
+- [GET `/photos/[id]`](#get-photos-id)
+- [PUT `/photos/[id]`](#put-photos-id)
+- [PATCH `/photos/[id]`](#patch-photos-id)
+- [DELETE `/photos/[id]`](#delete-photos-id)
+
+<a id="get-photos">&nbsp;</a>
+### GET `/photos`
+Retrieve all photo entries publically available. Only thumbnail images are
+provided and not the complete image. To pull the complete image [use the GET
+request on an individual entry](#get-photos-id).
+
+#### Response
+```
+{
+  photos: [
+    {
+      id: String,
+      created: String,     // Timestamp for when entry was created
+      modified: String,    // Timestamp for when entry was last modified
+      title: String,       // User-provided title
+      thumbnail: String    // Base64 encoded JPEG thumbnail (200x200)
+    },
+    ...
+  ]
+}
+```
+
+<a id="post-photos">&nbsp;</a>
+### POST `/photos`
+Create a new entry, uploading a new photo. A unique key is generated and only
+presented once, which can be used to delete the photo.
+
+#### Parameters
+- `title` - Title for photo
+- `image` - Base64 encoded image
+
+#### Response
+```
+{
+  photo: {
+    id: String,
+    key: String,         // Unique key required for deleting a picture
+    created: String,     // Timestamp for when entry was created
+    modified: String,    // Timestamp for when entry was last modified
+    title: String,       // User-provided title
+    image: String,       // Base64 encoded JPEG image
+    thumbnail: String    // Base64 encoded JPEG thumbnail (200x200)
+  }
+}
+```
+
+
+<a id="get-photos-id">&nbsp;</a>
+### GET `/photos/[id]`
+Given an `id`, retrieve an individual photo entry. The full image is included
+in the response.
+
+#### Response
+```
+{
+  photo: {
+    id: String,
+    created: String,     // Timestamp for when entry was created
+    modified: String,    // Timestamp for when entry was last modified
+    title: String,       // User-provided title
+    image: String,       // Base64 encoded JPEG image
+    thumbnail: String    // Base64 encoded JPEG thumbnail (200x200)
+  }
+}
+```
+
+
+<a id="put-photos-id">&nbsp;</a>
+### PUT `/photos/[id]`
+Given an `id`, update an existing entry. Parameters not provided will be
+cleared server side. (`thumbnail` is an exception as it is dependent on
+`image`. In addition, `key` is required to modify.)
+
+#### Parameters
+- `key` - Key issued from when the entry was created
+- `title` - Title for photo
+- `image` - Base64 encoded image
+
+#### Response
+```
+{
+  photo: {
+    id: String,
+    created: String,     // Timestamp for when entry was created
+    modified: String,    // Timestamp for when entry was last modified
+    title: String,       // User-provided title
+    image: String,       // Base64 encoded JPEG image
+    thumbnail: String    // Base64 encoded JPEG thumbnail (200x200)
+  }
+}
+```
+
+
+<a id="patch-photos-id">&nbsp;</a>
+### PATCH `/photos/[id]`
+Like [PUT](#put-photos-id), update an existing entry given an `id`. However,
+parameters not provided will not be modified. (`thumbnail` is an exception as
+it is dependent on `image`. In addition, `key` is required to modify.)
+
+#### Parameters
+- `key` - Key issued from when the entry was created
+- `title` - Title for photo
+- `image` - Base64 encoded image
+
+#### Response
+```
+{
+  photo: {
+    id: String,
+    created: String,     // Timestamp for when entry was created
+    modified: String,    // Timestamp for when entry was last modified
+    title: String,       // User-provided title
+    image: String,       // Base64 encoded JPEG image
+    thumbnail: String    // Base64 encoded JPEG thumbnail (200x200)
+  }
+}
+```
+
+
+<a id="delete-photos-id">&nbsp;</a>
+### DELETE `/photos/[id]`
+
+Delete a photo entry. A `key` is required ([from when the entry was
+created](#post-photos)) for it to be deleted.
+
+#### Parameters
+- `key` - Key issued from when the entry was created
+        </script>
+      </section>
+    </div>
+
+    <footer>
+      <p></p>
+      <p>Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+
+    <script src="/javascripts/jquery.js"></script>
+    <script src="/javascripts/marked.js"></script>
+    <script src="/javascripts/highlight.js"></script>
+    <script src="/javascripts/scale.fix.js"></script>
+    <script src="/javascripts/index.js"></script>
+  </body>
+</html>
