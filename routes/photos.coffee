@@ -84,8 +84,7 @@ createImage = (image, {thumbnail} = {}) ->
 
   # Make sure to not reencode if a JPEG and not a thumbnail
   Q.ninvoke(gmImage, 'format').then (formats) ->
-    return image unless thumbnail
-    return image if formats
+    return image if not thumbnail and formats
     .map((format) -> format?.toLowerCase())
     .any(config.image.format.toLowerCase())
 
