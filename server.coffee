@@ -13,6 +13,8 @@ server.use restify.requestLogger()
 server.use restify.bodyParser()
 server.use restify.queryParser()
 server.use restify.jsonp()
+server.use restify.CORS()
+server.use restify.fullResponse()
 server.use restify.throttle(config.throttle)
 server.use restify.gzipResponse()
 
